@@ -5,17 +5,32 @@ import bcrypt from 'bcryptjs';
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         await connectToDatabase();
-        const { email, password } = req.body;
+        const { email, password, username } = req.body;
 
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(422).json({ message: 'User already exists!' });
+        // Check if required fields are provided
+        if (!email || !password || !username) {
+            return res.status(422).json({ message: 'Missing required fields' });
         }
 
+        // Check if user with the same email already exists
+        const existingUserByEmail = await User.findOne({ email });
+        if (existingUserByEmail) {
+            return res.status(422).json({ message: 'User with this email already exists!' });
+        }
+
+        // Check if user with the same username already exists
+        const existingUserByUsername = await User.findOne({ username });
+        if (existingUserByUsername) {
+            return res.status(422).json({ message: 'Username already in use!' });
+        }
+
+        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 12);
 
+        // Create a new user
         const user = new User({
             email,
+            username, // Add username to the user model
             password: hashedPassword,
         });
 

@@ -25,7 +25,7 @@ export default NextAuth({
                     throw new Error('Invalid password');
                 }
 
-                return { email: user.email };
+                return { email: user.email, name: user.name }; // Add additional fields as needed
             }
         })
     ],
@@ -33,17 +33,19 @@ export default NextAuth({
         jwt: true,
     },
     pages: {
-        signIn: '/auth/signin',
+        signIn: '/login',
     },
     callbacks: {
-        async jwt(token, user) {
+        async jwt({ token, user }) {
             if (user) {
                 token.email = user.email;
+                token.name = user.name; // Add other fields if needed
             }
             return token;
         },
-        async session(session, token) {
+        async session({ session, token }) {
             session.user.email = token.email;
+            session.user.name = token.name; // Set additional fields in session
             return session;
         }
     },
