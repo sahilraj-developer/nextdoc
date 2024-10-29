@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react';
 
 const CryptoDetails = () => {
   const router = useRouter();
-  const { id } = router.query; // Get the crypto id from the URL
+  const { id } = router.query; 
   const [cryptoData, setCryptoData] = useState(null);
   
   useEffect(() => {
     if (id) {
-      // Fetch data for the specific cryptocurrency
       const fetchData = async () => {
         const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`);
         const data = await response.json();
@@ -34,7 +33,6 @@ const CryptoDetails = () => {
         <p className={`text-lg ${cryptoData.market_data.price_change_percentage_24h >= 0 ? "text-green-500" : "text-red-500"}`}>
           {cryptoData.market_data.price_change_percentage_24h.toFixed(2)}%
         </p>
-        {/* Add more details or charts here */}
       </div>
     </div>
   );

@@ -8,15 +8,15 @@ export default function Index() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/home'); // Redirect to home if authenticated
+      router.push('/home');
     } else if (status === 'unauthenticated') {
-      router.push('/login'); // Redirect to login if not authenticated
+      router.push('/login'); 
     }
   }, [status, router]);
 
   if (status === 'loading') {
-    return <p>Loading...</p>; // Loading state
+    return <p>Loading...</p>; 
   }
 
-  return null; // Empty content as users will be redirected
+  return null; 
 }

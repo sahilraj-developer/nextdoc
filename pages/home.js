@@ -15,18 +15,15 @@ export default function CryptoPage() {
   useEffect(() => {
 const fetchCryptoData = async () => {
   try {
-    // Fetch cryptocurrency list (adjust as needed to get more than 10)
     const cryptoResponse = await fetch(
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false"
     );
     const cryptoData = await cryptoResponse.json();
     setCryptoList(cryptoData);
 
-    // Filter top gainers (change percentage > 0)
     const gainers = cryptoData.filter((coin) => coin.price_change_percentage_24h > 0);
     const losers = cryptoData.filter((coin) => coin.price_change_percentage_24h < 0);
 
-    // Sort and set top gainers and losers
     setTopGainers(gainers.sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h).slice(0, 10));
     setTopLosers(losers.sort((a, b) => a.price_change_percentage_24h - b.price_change_percentage_24h).slice(0, 10));
   } catch (error) {
@@ -39,9 +36,8 @@ const fetchCryptoData = async () => {
   }, []);
 
   const handleLogout = () => {
-    // Perform logout logic here
     localStorage.clear()
-    router.push("/login"); // Redirect to logout page
+    router.push("/login"); 
   };
 
   return (
@@ -56,8 +52,7 @@ const fetchCryptoData = async () => {
           Log Out
         </button>
       </header>
-  
-      {/* Trending Coins Section */}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
         <section className="bg-white p-4 rounded-lg shadow-lg transition transform hover:scale-105">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
@@ -73,7 +68,6 @@ const fetchCryptoData = async () => {
           </ul>
         </section>
   
-        {/* Market Overview Section */}
         <section className="bg-white p-4 rounded-lg shadow-lg transition transform hover:scale-105">
           <h2 className="text-xl font-semibold mb-4 flex items-center">📊 Market Overview</h2>
           <div className="flex justify-between">
@@ -88,7 +82,6 @@ const fetchCryptoData = async () => {
           </div>
         </section>
   
-        {/* News Section */}
         <section className="bg-white p-4 rounded-lg shadow-lg transition transform hover:scale-105">
           <h2 className="text-xl font-semibold mb-4 flex items-center">📰 Latest News</h2>
           <ul>
@@ -103,7 +96,6 @@ const fetchCryptoData = async () => {
         </section>
       </div>
   
-      {/* Top Gainers and Losers Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-6xl mt-8">
         <section className="bg-white p-4 rounded-lg shadow-lg transition transform hover:scale-105">
           <h2 className="text-xl font-semibold mb-4">📈 Top Gainers</h2>
@@ -134,7 +126,6 @@ const fetchCryptoData = async () => {
         </section>
       </div>
   
-      {/* Crypto Table Section */}
       <div className="w-full max-w-6xl bg-white p-4 mt-8 rounded-lg shadow-lg">
         <table className="w-full text-left border-collapse">
           <thead className="bg-blue-600 text-white">

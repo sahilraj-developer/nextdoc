@@ -12,7 +12,6 @@ export default function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     
-    // Replace this with your actual API call to create a user
     const response = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: {
@@ -23,7 +22,6 @@ export default function Signup() {
 
     const data = await response.json();
     if (response.ok) {
-      // Automatically log the user in after signup
       await signIn('credentials', { email, password, redirect: false });
       router.push('/home');
     } else {
